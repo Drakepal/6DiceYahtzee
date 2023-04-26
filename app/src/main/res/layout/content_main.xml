@@ -708,9 +708,48 @@
                     android:layout_margin="@dimen/margin_xsmall"
                     android:focusable="false"/>
 
+                <EditText
+                    android:id="@+id/etChanceSecondPlayer"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/et_points"
+                    android:layout_weight="1"
+                    android:padding="@dimen/padding_small"
+                    android:textSize="@dimen/textsize_large"
+                    tools:text="10"
+                    android:background="@drawable/yellowcard"
+                    android:layout_margin="@dimen/margin_xsmall"
+                    android:focusable="false"/>
+
             </LinearLayout>
 
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:layout_marginEnd="@dimen/padding_small"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_marginTop="@dimen/padding_small"
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_scores"
+            app:layout_constraintStart_toStartOf="@id/linear_layout_scores"
+            app:layout_constraintEnd_toEndOf="@id/linear_layout_scores"/>
+
+
+        <Button
+            android:id="@+id/btnRoll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:text="@string/roll"
+            android:textSize="@dimen/textsize_medium"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yahtzeeOrange"
+            app:layout_constraintEnd_toEndOf="@id/rvDices"
+            app:layout_constraintStart_toStartOf="@id/rvDices"
+            app:layout_constraintTop_toBottomOf="@id/rvDices"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

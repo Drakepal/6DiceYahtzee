@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_total_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvFirstPlayerResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:textSize="@dimen/textsize_large"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="100"/>
+
+                <TextView
+                    android:id="@+id/tvFirstPlayerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="@dimen/textsize_large"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    tools:text="You"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvSecondPlayerResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_large"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="100"/>
+
+                <TextView
+                    android:id="@+id/tvSecondPlayerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="@dimen/textsize_large"
+                    android:textStyle="bold"
+                    tools:text="Them"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvWinnerResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="@dimen/textsize_large"
+                android:textColor="?android:attr/textColorSecondary"
+                tools:text="Winner is Player"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_scores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@id/linear_layout_total_score"
+            app:layout_constraintStart_toStartOf="@id/linear_layout_total_score"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_total_score">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvFirstPlayerLeftEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/textsize_large"
+                    tools:text="Player 1"/>
+
+                <TextView
+                    android:id="@+id/tvFirstPlayerLeft"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_margin="@dimen/margin_xsmall"
+                    android:textSize="@dimen/textsize_medium"
+                    tools:text="Player 1"/>
+
+                <TextView
+                    android:id="@+id/tvSecondPlayerLeft"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_xsmall"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/textsize_medium"
+                    android:textStyle="bold"
+                    tools:text="Player 2"/>
+
+                <TextView
+                    android:id="@+id/tvSecondPlayerLeftEmpty"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_xsmall"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/textsize_medium"
+                    android:textStyle="bold"
+                    tools:text="Player 2"/>
+
+                <TextView
+                    android:id="@+id/tvFirstPlayerRight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="@dimen/margin_xsmall"
+                    android:gravity="center"
+                    android:textSize="@dimen/textsize_medium"
+                    android:textStyle="bold"
+                    tools:text="Player 1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

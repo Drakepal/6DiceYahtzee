@@ -13,4 +13,12 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.6DiceYahtzee.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="Theme.6DiceYahtzee.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="NewGameDialogueStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="windowNoTitle">false</item>
+    </style>
 </resources>

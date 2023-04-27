@@ -50,4 +50,119 @@ class Player (
         Log.d(TAG, "saveDice: ends with $dice")
     }
 
+    fun getToalResult(): Int {
+        Log.d(TAG, "getTotalResult: starts")
+        return setScores.map { it.value }.sum() + getBonusResult()
+    }
+
+    fun rollDice() {
+        Log.d(TAG, "rollDice: starts with $diceToRoll")
+        diceToRoll.filter { !it.savedDie }.forEach { die ->
+            die.randomizeResult()
+
+            Log.d(TAG, "rollDice: rolled dice is $die")
+        }
+        rollCount--
+        Log.d(TAG, "rollDice: ends with $diceToRoll")
+    }
+
+    fun saveScore(scoreSet: Set): Boolean {
+        Log.d(TAG, "saveScore: starts with $scoreSet")
+        val result = chooseSet(scoreSet)
+        return if(setScores[scoreSet] == null) {
+            setScores[scoreSet] = result
+            Log.d(TAG, "saveScore: ends with $scoreSet and $result, true")
+            true
+        } else {
+            Log.d(TAG, "saveScore: ends with $scoreSet and $result, false")
+            false
+        }
+    }
+
+    fun getBonusValue(): Int {
+        Log.d(TAG, "getBonusValue: starts")
+        val result = setScores.filter { it.key == Set.ACES || it.key == Set.TWOS
+                || it.key == Set.THREES || it.key == Set.FOURS
+                || it.key == Set.FIVES || it.key == Set.SIXES
+        }.map { it.value }.sum()
+        Log.d(TAG, "getBonusValue: ends with $result")
+        return result
+    }
+
+    private fun getBonusResult(): Int {
+        Log.d(TAG, "getBonusResult: starts")
+        val result = if(getBonusValue() >= YahtzeeConstants.GameValues.BONUS_IS_ACHIEVED) {
+            YahtzeeConstants.GameValues.BONUS_EXTRA_POINTS
+        } else
+            YahtzeeConstants.GameValues.ZERO_POINTS
+        Log.d(TAG, "getBonusResult: ends with $result")
+        return result
+    }
+
+    private fun sumDiceNumber(number: Int): Int {
+        Log.d(TAG, "sumDiceNumber: starts with $number")
+        val result = diceToRoll.map { it.result.value }.filter { it == number }.sum()
+        Log.d(TAG, "sumDiceNumber: ends with $result")
+        return result
+    }
+
+    fun chooseSet(set: Set): Int {
+        Log.d(TAG, "chooseSet: starts with $set")
+        val result = when(set) {
+            Set.ACES -> {
+                sumDiceNumber(DieResult.ONE.value)
+            }
+            Set.TWOS -> {
+                sumDiceNumber(DieResult.TWO.value)
+            }
+            Set.THREES -> {
+                sumDiceNumber(DieResult.THREE.value)
+            }
+            Set.FOURS-> {
+                sumDiceNumber(DieResult.FOUR.value)
+            }
+            Set.FIVES -> {
+                sumDiceNumber(DieResult.FIVE.value)
+            }
+            Set.SIXES -> {
+                sumDiceNumber(DieResult.SIX.value)
+            }
+            Set.THREE_OF_A_KIND -> {
+                if (checkForEqualsDice(Set.THREE_OF_A_KIND) || checkForEqualsDice(
+                        Set.FOUR_OF_A_KIND
+                )) {
+                    diceToRoll.sumBy { it.result.value }
+                }
+                else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.FOUR_OF_A_KIND -> {
+                if (checkForEqualsDice(Set.FOUR_OF_A_KIND)) {
+                    diceToRoll.sumBy { it.result.value }
+                }
+                else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.FULL_HOUSE -> {
+                if (checkFullHouse()) YahtzeeConstants.GameValues.FULL_HOUSE_POINTS else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.SMALL_STRAIGHT -> {
+                if (checkSmallStraight()) YahtzeeConstants.GameValues.SMALL_STRAIGHT_POINTS else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.LARGE_STRAIGHT -> {
+                if (checkLargeStraight()) YahtzeeConstants.GameValues.LARGE_STRAIGHT_POINTS else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.YAHTZEE -> {
+                if (checkYahtzee()) YahtzeeConstants.GameValues.YAHTZEE_POINTS else YahtzeeConstants.GameValues.ZERO_POINTS
+            }
+            Set.CHANCE -> {
+                diceToRoll.sumOf { it.result.value }
+            }
+        }
+        Log.d(TAG, "chooseSet: ends with $set and result $result")
+        return result
+    }
+
+    private fun checkForEqualsDice(setType: Set): Boolean {
+        Log.d(TAG, "checkForEqualsDice: starts with $setType")
+        val countedResults = diceToRoll.map { it.result.value }.groupingBy { it }.eachCount()
+    }
 }

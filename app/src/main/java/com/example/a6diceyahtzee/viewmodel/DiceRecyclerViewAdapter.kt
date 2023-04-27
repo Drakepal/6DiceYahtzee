@@ -1,22 +1,38 @@
 package com.example.a6diceyahtzee.viewmodel
 
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.a6diceyahtzee.databinding.ItemDiceBinding
 import com.example.a6diceyahtzee.model.Dice
 
 private const val TAG = "DiceRecyclerViewAd"
 
 class DiceRecyclerViewAdapter(private var diceList: List<Dice>, private val listener: OnDiceClickListener) :
  RecyclerView.Adapter<DiceViewHolder>(){
+
+    interface OnDiceClickListener {
+        fun onSaveClick(diceItem: Dice)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiceViewHolder {
-        TODO("Not yet implemented")
+        val binding = ItemDiceBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return DiceViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return diceList.size
     }
 
     override fun onBindViewHolder(holder: DiceViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(diceList[position], listener)
+    }
+
+    fun loadNewDices(newDices: List<Dice>) {
+        Log.d(TAG, "loadNewDices: starts with $newDices and old dices are $diceList")
+        diceList = newDices
+        notifyDataSetChanged()
     }
 }

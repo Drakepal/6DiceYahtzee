@@ -164,5 +164,62 @@ class Player (
     private fun checkForEqualsDice(setType: Set): Boolean {
         Log.d(TAG, "checkForEqualsDice: starts with $setType")
         val countedResults = diceToRoll.map { it.result.value }.groupingBy { it }.eachCount()
+        val result = when(setType) {
+            Set.THREE_OF_A_KIND -> {
+                countedResults.values.any { it >= 3 }
+            }
+            Set.FOUR_OF_A_KIND -> {
+                countedResults.values.any { it >= 4 }
+            }
+            else -> false
+        }
+        Log.d(TAG, "checkForEqualsDice: ends with $setType and result $result")
+        return result
+    }
+
+    private fun checkFullHouse(): Boolean {
+        Log.d(TAG, "checkFullHouse: starts")
+        val result = if(checkForEqualsDice(Set.FOUR_OF_A_KIND) || checkForEqualsDice(
+                Set.THREE_OF_A_KIND
+        )) {
+            val countedResults = diceToRoll.map { it.result.value }.groupingBy { it }.eachCount()
+            val ejectValue = countedResults.values.find { it >= 3 }
+            val remainList = countedResults.values.minusElement(ejectValue)
+            val finalResult = remainList.any { it!! >= 2 }
+            finalResult
+        } else false
+        Log.d(TAG, "checkFullHouse: ends with $result")
+        return result
+    }
+
+    private fun checkSmallStraight(): Boolean {
+        Log.d(TAG, "checkSmallStraight: starts")
+        val diceResults = diceToRoll.map { it.result.value }
+        val firstCase = mutableListOf(1, 2, 3, 4)
+        val secondCase = mutableListOf(2, 3,4,5)
+        val thirdCase = mutableListOf(3,4,5,6)
+        val result = diceResults.containsAll(firstCase) || diceResults.containsAll(secondCase) || diceResults.containsAll(thirdCase)
+        Log.d(TAG, "checkSmallStraight: ends with $result")
+        return result
+    }
+
+    private fun checkLargeStraight(): Boolean {
+        Log.d(TAG, "checkLargeStraight: starts")
+        val diceResults = diceToRoll.map { it.result.value }
+        val firstCase = mutableListOf(1, 2, 3, 4, 5)
+        val secondCase = mutableListOf(2, 3, 4, 5, 6)
+        val result = diceResults.containsAll(firstCase) || diceResults.containsAll(secondCase)
+        Log.d(TAG, "checkLargeStraight: ends with $result")
+        return result
+    }
+
+    private fun checkYahtzee(): Boolean {
+        Log.d(TAG, "checkYahtzee: starts")
+
+        val countedResults = diceToRoll.map { it.result.value }.groupingBy { it }.eachCount()
+        val result = countedResults.any { it.value >= 5 }
+
+        Log.d(TAG, "checkYahtzee: ends with $result")
+        return result
     }
 }

@@ -1,6 +1,7 @@
 package com.example.a6diceyahtzee.view
 
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -66,9 +67,34 @@ class NewGameDialogue : AppCompatDialogFragment() {
                     }
                     etSecondPlayerName.text?.isEmpty()!! -> {
                         etSecondPlayerName.error = getString(R.string.error_valid_nickname)
+                    } else -> {
+                        var args = Bundle().apply {
+                            putStringArray(NEW_GAME_DIALOGUE_PLAYERS_NAME,
+                            arrayOf(etFirstPlayerName.text.toString(), etSecondPlayerName.text.toString())
+                            )
+                        }
+                    Log.d(TAG, "setOnClickListener: starts with $args")
+                    (activity as NewGameDialogEvents).onCreateDialogResult(dialogId, args)
+                    dismiss()
                     }
                 }
             }
+            cancelButton.setOnClickListener { dismiss() }
         }
+        Log.d(TAG, "onViewCreated: ends")
+    }
+
+    override fun onAttach(context: Context) {
+        Log.d(TAG, "onAttach called: context is $context")
+        super.onAttach(context)
+
+        if (context !is NewGameDialogEvents) {
+            throw RuntimeException("$context must implement NewGameDialog.NewGameDialogEvents interface")
+        }
+    }
+
+    override fun onDetach() {
+        Log.d(TAG, "onDetach called")
+        super.onDetach()
     }
 }

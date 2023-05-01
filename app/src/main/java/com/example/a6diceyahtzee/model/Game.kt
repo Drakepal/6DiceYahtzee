@@ -51,8 +51,8 @@ class Game(var players: ArrayList<Player> = arrayListOf(Player(name = "Player 1"
 
     fun checkWinner(): Player {
         Log.d(TAG, "checkWinner: starts with $players")
-        val result = players.maxByOrNull { it.getToalResult() }!!
-        Log.d(TAG, "checkWinner: ends with winner $result, with score ${result.getToalResult()}")
+        val result = players.maxByOrNull { it.getTotalResult() }!!
+        Log.d(TAG, "checkWinner: ends with winner $result, with score ${result.getTotalResult()}")
         return result
     }
 }

@@ -50,7 +50,7 @@ class Player (
         Log.d(TAG, "saveDice: ends with $dice")
     }
 
-    fun getToalResult(): Int {
+    fun getTotalResult(): Int {
         Log.d(TAG, "getTotalResult: starts")
         return setScores.map { it.value }.sum() + getBonusResult()
     }

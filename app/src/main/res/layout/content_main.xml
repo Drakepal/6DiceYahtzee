@@ -548,7 +548,7 @@
                     tools:text="10"
                     android:background="@drawable/yellowcard"
                     android:layout_margin="@dimen/margin_small"
-                    android:focusable="true"/>
+                    android:focusable="false"/>
 
                 <EditText
                     android:id="@+id/etLargeStraightSecondPlayer"
@@ -560,7 +560,7 @@
                     tools:text="10"
                     android:background="@drawable/yellowcard"
                     android:layout_margin="@dimen/margin_small"
-                    android:focusable="true"/>
+                    android:focusable="false"/>
 
 
 

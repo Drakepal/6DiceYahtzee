@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
         val view = mainActivityBinding.root
         setContentView(view)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-//        setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         contentMainBinding = ContentMainBinding.bind(view)
 

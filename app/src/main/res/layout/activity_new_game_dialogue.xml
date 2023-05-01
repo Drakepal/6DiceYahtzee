@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/first_player_nickname"
+                android:textColorHint="@color/black"
                 android:inputType="text"
                 android:maxLength="6"
                 android:padding="@dimen/padding_small">
@@ -52,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/second_player_nickname"
+                android:textColorHint="@color/black"
                 android:inputType="text"
                 android:maxLength="6"
                 android:padding="@dimen/padding_small">

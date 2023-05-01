@@ -7,9 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.a6diceyahtzee.R
 import com.example.a6diceyahtzee.databinding.ActivityMainBinding
 import com.example.a6diceyahtzee.databinding.ContentMainBinding
@@ -35,10 +37,96 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
 
     private val diceRecyclerViewAdapter = DiceRecyclerViewAdapter(ArrayList(), this)
 
-    private val currentPlayer: Player? = null
+    private var currentPlayer: Player? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        Log.d(TAG, "onCreate: starts")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mainActivityBinding = ActivityMainBinding.inflate(layoutInflater)
+        val view = mainActivityBinding.root
+        setContentView(view)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        setSupportActionBar(findViewById(R.id.toolbar))
+
+        contentMainBinding = ContentMainBinding.bind(view)
+
+        contentMainBinding.rvDices.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        contentMainBinding.rvDices.adapter = diceRecyclerViewAdapter
+
+        contentMainBinding.btnRoll.setOnClickListener {
+            mainViewModel.rollDices()
+        }
+
+        mainViewModel.currentPlayersLD.observe(this
+        ) { players ->
+            setFirstPlayer(players[0])
+            setSecondPlayer(players[1])
+            currentPlayer = players.find { it.playerTurn }
+
+            if (currentPlayer == players[0]) {
+                changeStateFirstPlayerBoxScores(true)
+                changeStateSecondPlayerBoxScores(false)
+            } else if (currentPlayer == players[1]) {
+                changeStateSecondPlayerBoxScores(true)
+                changeStateFirstPlayerBoxScores(true)
+            }
+            setPlayerTurnOn(currentPlayer!!)
+        }
+
+        mainViewModel.toastSetLD.observe(this) {
+            it?.let {
+                if (it) {
+                    Toast.makeText(this, getString(R.string.toast_set_filled), Toast.LENGTH_SHORT).show()
+                    mainViewModel.onSetToastShown()
+                }
+            }
+        }
+        mainViewModel.winnerLD.observe(this) {
+            if (it.isNotEmpty()) {
+                contentMainBinding.tvWinnerResult.text = getString(R.string.tv_winner_message, it)
+            } else {
+                contentMainBinding.tvWinnerResult.text = ""
+            }
+        }
+
+        val setListener = initializeSetScoreListener()
+
+        contentMainBinding.apply {
+            etDiceOneFirstPlayer.setOnClickListener(setListener)
+            etDiceTwoFirstPlayer.setOnClickListener(setListener)
+            etDiceThreeFirstPlayer.setOnClickListener(setListener)
+            etDiceFourFirstPlayer.setOnClickListener(setListener)
+            etDiceFiveFirstPlayer.setOnClickListener(setListener)
+            etDiceSixFirstPlayer.setOnClickListener(setListener)
+            etThreeOfKindFirstPlayer.setOnClickListener(setListener)
+            etFourOfKindFirstPlayer.setOnClickListener(setListener)
+            etFullHouseFirstPlayer.setOnClickListener(setListener)
+            etSmallStraightFirstPlayer.setOnClickListener(setListener)
+            etLargeStraightFirstPlayer.setOnClickListener(setListener)
+            etYahtzeeFirstPlayer.setOnClickListener(setListener)
+            etChanceFirstPlayer.setOnClickListener(setListener)
+
+            etDiceOneSecondPlayer.setOnClickListener(setListener)
+            etDiceTwoSecondPlayer.setOnClickListener(setListener)
+            etDiceThreeSecondPlayer.setOnClickListener(setListener)
+            etDiceFourSecondPlayer.setOnClickListener(setListener)
+            etDiceFiveSecondPlayer.setOnClickListener(setListener)
+            etDiceSixSecondPlayer.setOnClickListener(setListener)
+            etThreeOfKindSecondPlayer.setOnClickListener(setListener)
+            etFourOfKindSecondPlayer.setOnClickListener(setListener)
+            etFullHouseSecondPlayer.setOnClickListener(setListener)
+            etSmallStraightSecondPlayer.setOnClickListener(setListener)
+            etLargeStraightSecondPlayer.setOnClickListener(setListener)
+            etYahtzeeSecondPlayer.setOnClickListener(setListener)
+            etChanceSecondPlayer.setOnClickListener(setListener)
+        }
+
+        mainViewModel.createGame(emptyArray())
+
+        Log.d(TAG, "onCreate:ends")
     }
 
     override fun onCreateDialogResult(dialogId: Int, args: Bundle) {

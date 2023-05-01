@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">6DiceYahtzee</string>
+    <string name="app_name">Yahtzee</string>
 
     <string name="dice_one">Dice with number one</string>
     <string name="dice_two">Dice with number two</string>

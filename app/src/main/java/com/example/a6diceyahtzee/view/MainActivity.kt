@@ -3,8 +3,12 @@ package com.example.a6diceyahtzee.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.a6diceyahtzee.R
 import com.example.a6diceyahtzee.databinding.ActivityMainBinding
@@ -136,6 +140,7 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
                 tvFirstPlayerLeft.text = it
                 tvFirstPlayerRight.text = it
                 tvFirstPlayerName.text = it
+            }
 
                 firstPlayer.setScores.forEach {
                     when (it.key) {
@@ -219,7 +224,7 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
                 )
 
                 tvFirstPlayerResult.text = firstPlayer.getTotalResult().toString()
-            }
+
         }
     }
 
@@ -230,6 +235,7 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
                 tvSecondPlayerLeft.text = it
                 tvSecondPlayerRight.text = it
                 tvSecondPlayerName.text = it
+            }
 
                 secondPlayer.setScores.forEach {
                     when (it.key) {
@@ -314,7 +320,82 @@ class MainActivity : AppCompatActivity(), NewGameDialogue.NewGameDialogEvents, D
 
                 tvSecondPlayerResult.text = secondPlayer.getTotalResult().toString()
 
+        }
+    }
+    private fun initializeSetScoreListener(): View.OnClickListener {
+        return View.OnClickListener { v ->
+
+            if(currentPlayer?.rollCount != YahtzeeConstants.GameValues.ROLLING_ALLOWED) {
+                contentMainBinding.apply {
+                    when (v) {
+                        etDiceOneFirstPlayer, etDiceOneSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.ACES)
+                        }
+                        etDiceTwoFirstPlayer, etDiceTwoSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.TWOS)
+                        }
+                        etDiceThreeFirstPlayer, etDiceThreeSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.THREES)
+                        }
+                        etDiceFourFirstPlayer, etDiceFourSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.FOURS)
+                        }
+                        etDiceFiveFirstPlayer, etDiceFiveSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.FIVES)
+                        }
+                        etDiceSixFirstPlayer, etDiceSixSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.SIXES)
+                        }
+                        etThreeOfKindFirstPlayer, etThreeOfKindSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.THREE_OF_A_KIND)
+                        }
+                        etFourOfKindFirstPlayer, etFourOfKindSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.FOUR_OF_A_KIND)
+                        }
+                        etFullHouseFirstPlayer, etFullHouseSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.FULL_HOUSE)
+                        }
+                        etSmallStraightFirstPlayer, etSmallStraightSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.SMALL_STRAIGHT)
+                        }
+                        etLargeStraightFirstPlayer, etLargeStraightSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.LARGE_STRAIGHT)
+                        }
+                        etYahtzeeFirstPlayer, etYahtzeeSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.YAHTZEE)
+                        }
+                        etChanceFirstPlayer, etChanceSecondPlayer -> {
+                            mainViewModel.scoreSet(Set.CHANCE)
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.toast_need_roll), Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        Log.d(TAG, "onCreateOptionsMenu: starts")
+        menuInflater.inflate(R.menu.menu_main, menu)
+        Log.d(TAG, "onCreateOptionsMenu: ends")
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.d(TAG, "onOptionsItemSelected: starts")
+        when (item.itemId) {
+            R.id.action_new_game -> {
+                val dialog = NewGameDialogue()
+                val args = Bundle().apply {
+                    putInt(NEW_GAME_DIALOGUE_ID, DIALOGUE_NEW_GAME)
+                }
+                dialog.arguments = args
+                dialog.show(supportFragmentManager, "newGame")
+            }
+        }
+        Log.d(TAG, "onOptionsItemSelected: ends")
+        return super.onOptionsItemSelected(item)
     }
 }
